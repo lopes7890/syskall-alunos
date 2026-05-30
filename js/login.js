@@ -40,7 +40,7 @@ form.addEventListener("submit", async (e) => {
     btn.disabled = true;
 
     try {
-        const response = await fetch("http://localhost:3000/login/users", {
+        const response = await fetch("https://api-alunos-syscall.onrender.com/login/users", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -57,7 +57,7 @@ form.addEventListener("submit", async (e) => {
             localStorage.setItem("token", data.token);
 
             // Redireciona somente após login bem-sucedido
-            window.location.href = "painel_do_aluno.html";
+            window.location.href = "fatec-aluno.html";
         } else {
             document.getElementById("message").textContent =
                 data.message || "Email ou senha inválidos.";

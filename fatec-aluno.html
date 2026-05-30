@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conecta — Portal do Aluno</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --crimson: #8B1A1A;
+  --crimson-dark: #6e1414;
+  --crimson-mid: #a82020;
+  --crimson-light: #c0392b;
+  --rose-pale: #fdf1f1;
+  --rose-soft: #f7e0e0;
+  --rose-border: #e8c4c4;
+  --slate: #2c3a4a;
+  --slate-mid: #435060;
+  --slate-light: #7a8a9a;
+  --white: #ffffff;
+  --bg: #f5f0f0;
+  --card: #ffffff;
+  --success: #1e6e42;
+  --success-bg: #e6f4ed;
+  --warning: #b45309;
+  --warning-bg: #fef3c7;
+  --info-bg: #e8f0fe;
+  --info: #1a56a0;
+  --sidebar-w: 268px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--slate);min-height:100vh;display:flex;flex-direction:column}
+
+/* TOPBAR */
+.topbar{background:var(--crimson-dark);height:54px;display:flex;align-items:center;padding:0 28px;justify-content:space-between;position:sticky;top:0;z-index:200}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#fff;letter-spacing:-.2px}
+.topbar-right{display:flex;align-items:center;gap:20px}
+.topbar-greeting{font-size:.85rem;color:rgba(255,255,255,.75);font-weight:400}
+.topbar-greeting strong{color:#fff;font-weight:600}
+.topbar-icon{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.12);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.8);transition:background .18s}
+.topbar-icon:hover{background:rgba(255,255,255,.22);color:#fff}
+.notif-dot{position:relative}
+.notif-dot::after{content:'';position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:#ff6b6b;border:2px solid var(--crimson-dark)}
+
+/* LAYOUT */
+.layout{display:flex;flex:1;min-height:calc(100vh - 54px)}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);background:var(--slate);display:flex;flex-direction:column;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto}
+.sidebar-profile{padding:24px 20px 18px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:12px}
+.profile-avatar{width:44px;height:44px;border-radius:50%;background:var(--crimson);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem;color:#fff;flex-shrink:0;border:2px solid rgba(255,255,255,.2)}
+.profile-name{font-size:.875rem;font-weight:600;color:#fff}
+.profile-ra{font-size:.75rem;color:rgba(255,255,255,.4);margin-top:2px}
+
+.sidebar-nav{flex:1;padding:14px 12px;display:flex;flex-direction:column;gap:2px}
+.nav-item{display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:9px;cursor:pointer;transition:background .17s,color .17s;color:rgba(255,255,255,.5);font-size:.855rem;font-weight:500;border:none;background:transparent;width:100%;text-align:left}
+.nav-item svg{flex-shrink:0;width:17px;height:17px}
+.nav-item:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.8)}
+.nav-item.active{background:var(--crimson);color:#fff}
+.nav-sep{height:1px;background:rgba(255,255,255,.07);margin:8px 0}
+
+.sidebar-actions{padding:14px 12px}
+.btn-new{width:100%;padding:12px;background:var(--crimson);color:#fff;border:none;border-radius:9px;font-family:'Sora',sans-serif;font-size:.875rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .18s,transform .15s}
+.btn-new:hover{background:var(--crimson-dark);transform:translateY(-1px)}
+
+.sidebar-footer{padding:12px;border-top:1px solid rgba(255,255,255,.07)}
+.sidebar-ver{padding:10px 14px;font-size:.7rem;color:rgba(255,255,255,.2)}
+
+/* MAIN */
+.main{flex:1;padding:32px 30px;overflow-y:auto}
+.page{display:none;animation:fadeUp .28s ease}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.page-header{margin-bottom:26px}
+.page-header h2{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:var(--crimson);line-height:1.2}
+.page-header p{font-size:.875rem;color:var(--slate-light);margin-top:5px}
+
+/* HOME HERO */
+.hero{background:var(--card);border-radius:16px;border:1px solid var(--rose-border);padding:36px 40px;display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;overflow:hidden;position:relative}
+.hero::before{content:'';position:absolute;right:-30px;top:-30px;width:220px;height:220px;background:radial-gradient(circle,rgba(139,26,26,.06) 0%,transparent 70%)}
+.hero-text h1{font-family:'Playfair Display',serif;font-size:1.65rem;font-weight:700;color:var(--slate);line-height:1.3;margin-bottom:10px}
+.hero-text p{font-size:.875rem;color:var(--slate-light);max-width:420px;line-height:1.65}
+.hero-text .btn-primary{margin-top:22px}
+.hero-icon{opacity:.12;flex-shrink:0}
+.hero-icon svg{width:140px;height:140px;color:var(--crimson)}
+
+/* OVERVIEW CARDS */
+.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:26px}
+.ov-card{background:var(--card);border-radius:12px;border:1px solid var(--rose-border);padding:18px 20px;display:flex;align-items:center;justify-content:space-between;transition:transform .18s,box-shadow .18s;cursor:pointer}
+.ov-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(139,26,26,.09)}
+.ov-card-left{display:flex;align-items:center;gap:12px}
+.ov-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ov-icon.rose{background:var(--rose-soft)}
+.ov-icon.warn{background:var(--warning-bg)}
+.ov-icon.blue{background:var(--info-bg)}
+.ov-label{font-size:.82rem;color:var(--slate-light)}
+.ov-val{font-size:1.7rem;font-weight:700;color:var(--crimson);font-variant-numeric:tabular-nums}
+.ov-val.warn{color:var(--warning)}
+.ov-val.blue{color:var(--info)}
+
+/* GENERIC CARD */
+.card{background:var(--card);border-radius:14px;border:1px solid var(--rose-border);overflow:hidden;margin-bottom:20px}
+.card-head{padding:18px 22px;border-bottom:1px solid var(--rose-border);display:flex;justify-content:space-between;align-items:center}
+.card-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;color:var(--slate)}
+.card-body{padding:0}
+
+/* BOOK LIST */
+.book-row{display:flex;align-items:center;gap:14px;padding:15px 22px;border-bottom:1px solid #f5ecec;transition:background .15s}
+.book-row:last-child{border-bottom:none}
+.book-row:hover{background:var(--rose-pale)}
+.book-spine{width:38px;height:52px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;text-align:center;line-height:1.1;flex-shrink:0;color:#fff;letter-spacing:.3px}
+.book-info{flex:1}
+.book-title{font-size:.875rem;font-weight:600;color:var(--slate)}
+.book-author{font-size:.76rem;color:var(--slate-light);margin-top:2px}
+.book-meta{display:flex;gap:8px;margin-top:6px;align-items:center}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:500}
+.tag-green{background:var(--success-bg);color:var(--success)}
+.tag-red{background:#fde8e8;color:var(--crimson)}
+.tag-yellow{background:var(--warning-bg);color:var(--warning)}
+.tag-blue{background:var(--info-bg);color:var(--info)}
+.tag-gray{background:#f0f0f0;color:#666}
+.book-due{font-size:.77rem;color:var(--slate-light);margin-left:auto;text-align:right;flex-shrink:0}
+.book-due strong{display:block;font-size:.82rem;color:var(--slate);font-weight:600}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:9px;border:none;font-family:'Sora',sans-serif;font-size:.855rem;font-weight:600;cursor:pointer;transition:background .17s,transform .14s}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--crimson);color:#fff}
+.btn-primary:hover{background:var(--crimson-dark)}
+.btn-outline{background:#fff;color:var(--crimson);border:1.5px solid var(--crimson)}
+.btn-outline:hover{background:var(--rose-pale)}
+.btn-sm{padding:5px 13px;font-size:.78rem}
+.btn-ghost{background:transparent;color:var(--slate-light);border:1px solid var(--rose-border)}
+.btn-ghost:hover{background:var(--rose-pale);color:var(--crimson)}
+
+/* SEARCH */
+.search-wrap{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--rose-border);border-radius:9px;padding:9px 14px;max-width:360px;flex:1}
+.search-wrap input{border:none;outline:none;font-family:'Sora',sans-serif;font-size:.855rem;color:var(--slate);width:100%;background:transparent}
+.search-wrap input::placeholder{color:#bbb}
+.search-wrap svg{color:var(--slate-light);flex-shrink:0}
+
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.select-filter{border:1.5px solid var(--rose-border);border-radius:9px;padding:9px 13px;font-family:'Sora',sans-serif;font-size:.82rem;color:var(--slate);background:#fff;outline:none;cursor:pointer}
+
+/* CATALOG GRID */
+.catalog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.cat-card{background:var(--card);border-radius:12px;border:1px solid var(--rose-border);overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:pointer}
+.cat-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(139,26,26,.12)}
+.cat-cover{height:120px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.95rem;color:#fff;font-weight:700;text-align:center;padding:12px;line-height:1.3}
+.cat-body{padding:12px 14px}
+.cat-book-title{font-size:.83rem;font-weight:600;color:var(--slate);line-height:1.3}
+.cat-author{font-size:.74rem;color:var(--slate-light);margin-top:3px}
+.cat-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+
+/* SCHEDULE */
+.schedule-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:.8rem;font-weight:600;color:var(--slate);margin-bottom:6px}
+.form-control{width:100%;padding:10px 13px;border:1.5px solid var(--rose-border);border-radius:9px;font-family:'Sora',sans-serif;font-size:.855rem;color:var(--slate);outline:none;transition:border-color .17s;background:#fff}
+.form-control:focus{border-color:var(--crimson)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+.timeslot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px}
+.timeslot{padding:8px 6px;border-radius:8px;border:1.5px solid var(--rose-border);text-align:center;cursor:pointer;font-size:.78rem;font-weight:500;color:var(--slate-mid);background:#fff;transition:all .15s;user-select:none}
+.timeslot:hover{border-color:var(--crimson);color:var(--crimson)}
+.timeslot.selected{background:var(--crimson);border-color:var(--crimson);color:#fff}
+.timeslot.taken{background:#f3f3f3;color:#bbb;cursor:not-allowed;border-color:#e8e8e8}
+
+.agendamento-list{display:flex;flex-direction:column;gap:10px}
+.ag-item{padding:14px 16px;border-radius:10px;border:1px solid var(--rose-border);display:flex;align-items:center;gap:14px;background:#fff}
+.ag-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ag-icon.study{background:var(--info-bg);color:var(--info)}
+.ag-icon.book{background:var(--rose-soft);color:var(--crimson)}
+.ag-info{flex:1}
+.ag-title{font-size:.855rem;font-weight:600;color:var(--slate)}
+.ag-sub{font-size:.76rem;color:var(--slate-light);margin-top:2px}
+.ag-date{font-size:.78rem;font-weight:600;color:var(--slate-mid);text-align:right;flex-shrink:0}
+
+/* HISTORY */
+.hist-row{display:flex;align-items:center;gap:14px;padding:13px 22px;border-bottom:1px solid #f5ecec}
+.hist-row:last-child{border-bottom:none}
+.hist-row:hover{background:var(--rose-pale)}
+.hist-timeline{width:2px;height:40px;border-radius:2px;flex-shrink:0}
+.hist-timeline.returned{background:var(--success)}
+.hist-timeline.late{background:var(--crimson)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:18px;padding:32px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;transform:scale(.95);transition:transform .22s;box-shadow:0 24px 60px rgba(0,0,0,.2)}
+.modal-overlay.open .modal{transform:scale(1)}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--slate)}
+.modal-close{background:none;border:none;cursor:pointer;color:var(--slate-light);padding:4px;border-radius:6px;transition:background .15s}
+.modal-close:hover{background:var(--rose-pale);color:var(--crimson)}
+.modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:24px}
+
+/* ALERT */
+.alert{padding:12px 16px;border-radius:10px;font-size:.84rem;margin-bottom:18px;display:flex;gap:10px;align-items:flex-start}
+.alert-warning{background:var(--warning-bg);color:var(--warning);border:1px solid #fcd34d}
+.alert svg{flex-shrink:0;margin-top:1px}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--slate);color:#fff;padding:13px 20px;border-radius:10px;font-size:.875rem;font-weight:500;transform:translateY(12px);opacity:0;transition:all .25s;z-index:999;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{background:var(--success)}
+.toast.error{background:var(--crimson)}
+
+/* FOOTER */
+.sidebar-bottom-footer{padding:10px 20px;font-size:.7rem;color:rgba(255,255,255,.18);border-top:1px solid rgba(255,255,255,.06)}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:48px;color:var(--slate-light)}
+.empty-state svg{opacity:.25;margin-bottom:14px}
+.empty-state p{font-size:.9rem}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-brand">Conecta</div>
+  <div class="topbar-right">
+    <span class="topbar-greeting">Olá, <strong>Guilherme!</strong></span>
+    <button class="topbar-icon notif-dot" onclick="showToast('Você tem 2 notificações', '')">
+      <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    </button>
+    <button class="topbar-icon" onclick="showToast('Ajuda em breve!', '')">
+      <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="layout">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-profile">
+    <div class="profile-avatar">GS</div>
+    <div>
+      <div class="profile-name">Portal do Aluno</div>
+      <div class="profile-ra">RA: 123456789</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <button class="nav-item active" onclick="navigate('inicio')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Início
+    </button>
+    <button class="nav-item" onclick="navigate('emprestimos')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Meus Empréstimos
+    </button>
+    <button class="nav-item" onclick="navigate('historico')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Histórico
+    </button>
+    <button class="nav-item" onclick="navigate('catalogo')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Catálogo
+    </button>
+    <div class="nav-sep"></div>
+    <button class="nav-item" onclick="navigate('agendamentos')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Agendamentos
+    </button>
+    <div class="nav-sep"></div>
+    <button class="nav-item" onclick="navigate('configuracoes')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Configurações
+    </button>
+  </nav>
+  <div class="sidebar-actions">
+    <button class="btn-new" onclick="openModal('modal-reserva')">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Novo Empréstimo
+    </button>
+  </div>
+  <div class="sidebar-bottom-footer">Versão 1.5.2-rc2 &nbsp;·&nbsp; Desenvolvido por FATEC Registro</div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ═══ INÍCIO ══════════════════════════════════════════ -->
+<div class="page active" id="page-inicio">
+  <div class="hero">
+    <div class="hero-text">
+      <h1>Bem-vindo ao Conecta, Guilherme!</h1>
+      <p>Comunidade e universidade conectados. Gerencie seus empréstimos, explore o acervo e agende seus estudos na biblioteca.</p>
+      <button class="btn btn-primary" style="margin-top:20px" onclick="openModal('modal-reserva')">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Reservar livro
+      </button>
+    </div>
+    <div class="hero-icon">
+      <svg fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    </div>
+  </div>
+
+  <div class="overview-grid">
+    <div class="ov-card" onclick="navigate('emprestimos')">
+      <div class="ov-card-left">
+        <div class="ov-icon rose">
+          <svg width="18" height="18" fill="none" stroke="var(--crimson)" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div class="ov-label">Livros Registrados</div>
+      </div>
+      <div class="ov-val">12</div>
+    </div>
+    <div class="ov-card" onclick="navigate('emprestimos')">
+      <div class="ov-card-left">
+        <div class="ov-icon warn">
+          <svg width="18" height="18" fill="none" stroke="var(--warning)" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="ov-label">Livros Vencidos</div>
+      </div>
+      <div class="ov-val warn">02</div>
+    </div>
+    <div class="ov-card" onclick="navigate('agendamentos')">
+      <div class="ov-card-left">
+        <div class="ov-icon blue">
+          <svg width="18" height="18" fill="none" stroke="var(--info)" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div class="ov-label">Próximas Entregas</div>
+      </div>
+      <div class="ov-val blue">03</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">Empréstimos Ativos</span>
+        <button class="btn btn-sm btn-ghost" onclick="navigate('emprestimos')">Ver todos</button>
+      </div>
+      <div class="card-body" id="homeEmprestimosPreview"></div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">Próximos Agendamentos</span>
+        <button class="btn btn-sm btn-ghost" onclick="navigate('agendamentos')">Ver todos</button>
+      </div>
+      <div class="card-body" id="homeAgendamentosPreview" style="padding:16px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ EMPRÉSTIMOS ══════════════════════════════════════ -->
+<div class="page" id="page-emprestimos">
+  <div class="page-header">
+    <h2>Meus Empréstimos</h2>
+    <p>Livros atualmente retirados da biblioteca e sua situação.</p>
+  </div>
+  <div class="alert alert-warning">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <span><strong>2 livros estão vencidos.</strong> Dirija-se à biblioteca para regularizar sua situação e evitar bloqueio.</span>
+  </div>
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Buscar livro..." oninput="filterEmp(this.value)">
+    </div>
+    <select class="select-filter" onchange="filterEmpStatus(this.value)">
+      <option value="">Todos</option>
+      <option value="em-dia">Em dia</option>
+      <option value="atrasado">Atrasado</option>
+    </select>
+  </div>
+  <div class="card">
+    <div class="card-body" id="emprestimosList"></div>
+  </div>
+</div>
+
+<!-- ═══ HISTÓRICO ════════════════════════════════════════ -->
+<div class="page" id="page-historico">
+  <div class="page-header">
+    <h2>Histórico de Leituras</h2>
+    <p>Todos os livros que você já retirou da biblioteca.</p>
+  </div>
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Buscar no histórico..." oninput="filterHist(this.value)">
+    </div>
+    <select class="select-filter" onchange="filterHistAno(this.value)">
+      <option value="">Todos os anos</option>
+      <option value="2025">2025</option>
+      <option value="2024">2024</option>
+      <option value="2023">2023</option>
+    </select>
+  </div>
+  <div class="card">
+    <div class="card-body" id="historicoList"></div>
+  </div>
+</div>
+
+<!-- ═══ CATÁLOGO ═════════════════════════════════════════ -->
+<div class="page" id="page-catalogo">
+  <div class="page-header">
+    <h2>Catálogo da Biblioteca</h2>
+    <p>Explore o acervo completo e reserve livros disponíveis.</p>
+  </div>
+  <div class="toolbar" style="flex-wrap:wrap;gap:10px">
+    <div class="search-wrap">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Buscar título, autor ou ISBN..." oninput="filterCatalog(this.value)">
+    </div>
+    <select class="select-filter" onchange="filterCatalogCat(this.value)">
+      <option value="">Todas as categorias</option>
+      <option>Tecnologia</option>
+      <option>Engenharia</option>
+      <option>Matemática</option>
+      <option>Ciências</option>
+      <option>Gestão</option>
+    </select>
+    <select class="select-filter" onchange="filterCatalogDisp(this.value)">
+      <option value="">Disponibilidade</option>
+      <option value="disponivel">Disponível</option>
+      <option value="indisponivel">Indisponível</option>
+    </select>
+  </div>
+  <div class="catalog-grid" id="catalogGrid"></div>
+</div>
+
+<!-- ═══ AGENDAMENTOS ══════════════════════════════════════ -->
+<div class="page" id="page-agendamentos">
+  <div class="page-header">
+    <h2>Agendamentos</h2>
+    <p>Reserve horários de estudo e agende retirada de livros.</p>
+  </div>
+  <div class="schedule-grid">
+    <div>
+      <div class="card" style="margin-bottom:0">
+        <div class="card-head"><span class="card-title">Novo Agendamento</span></div>
+        <div style="padding:22px">
+          <div class="form-group">
+            <label class="form-label">Tipo de agendamento</label>
+            <select class="form-control" id="agTipo">
+              <option value="estudo">Sala de Estudos</option>
+              <option value="reserva">Reserva de Livro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Data</label>
+            <input type="date" class="form-control" id="agData">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Horário disponível</label>
+            <div class="timeslot-grid" id="timeslotGrid"></div>
+          </div>
+          <div class="form-group" id="agLivroGroup">
+            <label class="form-label">Livro (para reserva)</label>
+            <select class="form-control" id="agLivro">
+              <option>Algoritmos Modernos — Cormen</option>
+              <option>Clean Code — Robert C. Martin</option>
+              <option>Engenharia de Software — Sommerville</option>
+              <option>Design Patterns — GoF</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Observações</label>
+            <input class="form-control" id="agObs" placeholder="Ex: Precisarei de cabine individual">
+          </div>
+          <button class="btn btn-primary" style="width:100%" onclick="salvarAgendamento()">Confirmar Agendamento</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:0">
+        <div class="card-head"><span class="card-title">Meus Agendamentos</span></div>
+        <div style="padding:16px">
+          <div class="agendamento-list" id="agendamentosList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CONFIGURAÇÕES ═════════════════════════════════════ -->
+<div class="page" id="page-configuracoes">
+  <div class="page-header">
+    <h2>Configurações</h2>
+    <p>Gerencie suas preferências e dados pessoais.</p>
+  </div>
+  <div style="max-width:520px">
+    <div class="card">
+      <div class="card-head"><span class="card-title">Perfil do Aluno</span></div>
+      <div style="padding:22px">
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Nome completo</label><input class="form-control" value="Guilherme Santos"></div>
+          <div class="form-group"><label class="form-label">RA</label><input class="form-control" value="123456789" readonly style="background:#f9f9f9"></div>
+        </div>
+        <div class="form-group"><label class="form-label">E-mail institucional</label><input class="form-control" value="guilherme.santos@fatec.sp.gov.br"></div>
+        <div class="form-group"><label class="form-label">Curso</label><select class="form-control"><option selected>Análise e Desenvolvimento de Sistemas</option><option>Engenharia de Software</option><option>Redes de Computadores</option></select></div>
+        <div class="form-group">
+          <label class="form-label">Notificações por e-mail</label>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.855rem"><input type="checkbox" checked> Avisos de vencimento</label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.855rem"><input type="checkbox" checked> Confirmações de agendamento</label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.855rem"><input type="checkbox"> Novidades do acervo</label>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="showToast('Dados salvos com sucesso!','success')">Salvar alterações</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- MODAL RESERVA -->
+<div class="modal-overlay" id="modal-reserva">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Reservar Livro</div>
+      <button class="modal-close" onclick="closeModal('modal-reserva')">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Buscar livro</label>
+      <div class="search-wrap" style="max-width:100%">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Título ou autor..." id="reservaSearch" oninput="searchReserva(this.value)">
+      </div>
+    </div>
+    <div id="reservaResults" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px"></div>
+    <div class="form-group">
+      <label class="form-label">Livro selecionado</label>
+      <input class="form-control" id="reservaLivroSel" placeholder="Selecione um livro acima..." readonly>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Data de retirada desejada</label>
+      <input type="date" class="form-control" id="reservaData">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-reserva')">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmarReserva()">Confirmar Reserva</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL LIVRO DETALHE -->
+<div class="modal-overlay" id="modal-livro-detalhe">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="detalheTitle">Detalhes do Livro</div>
+      <button class="modal-close" onclick="closeModal('modal-livro-detalhe')">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div id="detalheBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-livro-detalhe')">Fechar</button>
+      <button class="btn btn-primary" id="detalheReservaBtn">Reservar este livro</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span id="toastMsg"></span></div>
+
+<script>
+// ═══════════════════════════ DATA ═══════════════════════════
+const COLORS = ['#8B1A1A','#2d4a7a','#4a2d7a','#1e6e42','#8B4513','#2d7a4a','#6e4a1a','#1a5070'];
+
+const emprestimos = [
+  { titulo:'Algoritmos Modernos', autor:'Thomas H. Cormen', retirada:'2025-05-01', devolucao:'2025-05-15', status:'atrasado', cor:'#8B1A1A' },
+  { titulo:'Clean Code', autor:'Robert C. Martin', retirada:'2025-05-10', devolucao:'2025-06-10', status:'em-dia', cor:'#2d4a7a' },
+  { titulo:'Design Patterns', autor:'Gang of Four', retirada:'2025-05-12', devolucao:'2025-05-26', status:'atrasado', cor:'#4a2d7a' },
+  { titulo:'Redes de Computadores', autor:'Andrew S. Tanenbaum', retirada:'2025-05-18', devolucao:'2025-06-18', status:'em-dia', cor:'#1e6e42' },
+  { titulo:'Banco de Dados', autor:'Abraham Silberschatz', retirada:'2025-05-20', devolucao:'2025-06-20', status:'em-dia', cor:'#8B4513' },
+];
+
+const historico = [
+  { titulo:'Sistemas Operacionais', autor:'William Stallings', retirada:'2024-11-01', devolucao:'2024-11-15', status:'devolvido', cor:'#2d4a7a' },
+  { titulo:'Cálculo Vol. 1', autor:'James Stewart', retirada:'2024-10-05', devolucao:'2024-10-19', status:'devolvido', cor:'#1e6e42' },
+  { titulo:'Física Geral', autor:'Serway & Jewett', retirada:'2024-09-10', devolucao:'2024-10-10', status:'devolvido-atrasado', cor:'#8B1A1A' },
+  { titulo:'Estrutura de Dados', autor:'Mark Allen Weiss', retirada:'2024-08-15', devolucao:'2024-08-29', status:'devolvido', cor:'#8B4513' },
+  { titulo:'Introdução à IA', autor:'Stuart Russell', retirada:'2024-07-01', devolucao:'2024-07-15', status:'devolvido', cor:'#4a2d7a' },
+  { titulo:'UX Design', autor:'Don Norman', retirada:'2023-12-10', devolucao:'2023-12-24', status:'devolvido', cor:'#1a5070' },
+  { titulo:'Engenharia de Software', autor:'Ian Sommerville', retirada:'2023-10-01', devolucao:'2023-10-15', status:'devolvido', cor:'#1e6e42' },
+];
+
+const catalogo = [
+  { titulo:'Algoritmos Modernos', autor:'Thomas H. Cormen', isbn:'978-0-262-046305', cat:'Tecnologia', disponiveis:2, total:5, cor:'#8B1A1A' },
+  { titulo:'Engenharia de Software', autor:'Ian Sommerville', isbn:'978-0-13-394303-0', cat:'Engenharia', disponiveis:1, total:4, cor:'#2d4a7a' },
+  { titulo:'Clean Code', autor:'Robert C. Martin', isbn:'978-0-13-235088-4', cat:'Tecnologia', disponiveis:3, total:3, cor:'#4a2d7a' },
+  { titulo:'Design Patterns', autor:'Gang of Four', isbn:'978-0-20-163361-5', cat:'Tecnologia', disponiveis:0, total:2, cor:'#8B4513' },
+  { titulo:'Banco de Dados', autor:'Abraham Silberschatz', isbn:'978-0-07-352332-3', cat:'Tecnologia', disponiveis:4, total:6, cor:'#1e6e42' },
+  { titulo:'Cálculo Vol. 1', autor:'James Stewart', isbn:'978-0-53-849781-7', cat:'Matemática', disponiveis:5, total:8, cor:'#6e4a1a' },
+  { titulo:'Física Geral Vol. 1', autor:'Serway & Jewett', isbn:'978-0-84-004048-0', cat:'Ciências', disponiveis:2, total:3, cor:'#1a5070' },
+  { titulo:'Estrutura de Dados', autor:'Mark Allen Weiss', isbn:'978-0-13-284737-7', cat:'Tecnologia', disponiveis:1, total:4, cor:'#2d7a4a' },
+  { titulo:'Redes de Computadores', autor:'Andrew Tanenbaum', isbn:'978-0-13-212695-3', cat:'Tecnologia', disponiveis:3, total:5, cor:'#8B1A1A' },
+  { titulo:'Sistemas Operacionais', autor:'William Stallings', isbn:'978-0-13-380591-2', cat:'Tecnologia', disponiveis:0, total:3, cor:'#4a2d7a' },
+  { titulo:'Introdução à Inteligência Artificial', autor:'Stuart Russell', isbn:'978-0-13-604259-4', cat:'Tecnologia', disponiveis:2, total:2, cor:'#1e6e42' },
+  { titulo:'Gestão de Projetos', autor:'PMI', isbn:'978-1-93-523590-7', cat:'Gestão', disponiveis:4, total:4, cor:'#6e4a1a' },
+];
+
+const agendamentos = [
+  { tipo:'estudo', titulo:'Sala de Estudos A', data:'2025-06-02', hora:'14:00', obs:'' },
+  { tipo:'reserva', titulo:'Reserva: Clean Code', data:'2025-06-05', hora:'10:00', obs:'Retirada programada' },
+  { tipo:'estudo', titulo:'Sala de Estudos B', data:'2025-06-10', hora:'09:00', obs:'Grupo de estudos' },
+];
+
+const timeSlots = ['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00'];
+const takenSlots = ['09:00','13:00'];
+let selectedSlot = '';
+
+let empFiltered = [...emprestimos];
+let histFiltered = [...historico];
+let catFiltered = [...catalogo];
+
+// ═══════════════════════════ NAVIGATION ═════════════════════
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick')?.includes("'"+page+"'")) n.classList.add('active');
+  });
+  if (page === 'agendamentos') buildTimeslots();
+  if (page === 'catalogo') renderCatalog();
+}
+
+// ═══════════════════════════ EMPRÉSTIMOS ════════════════════
+function renderEmprestimos(list) {
+  const el = document.getElementById('emprestimosList');
+  if (!list.length) { el.innerHTML = '<div class="empty-state"><p>Nenhum empréstimo encontrado.</p></div>'; return; }
+  el.innerHTML = list.map((e, i) => {
+    const tag = e.status === 'em-dia'
+      ? '<span class="tag tag-green"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Em dia</span>'
+      : '<span class="tag tag-red"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Atrasado</span>';
+    const initials = e.titulo.split(' ').slice(0,2).map(w=>w[0]).join('');
+    return `<div class="book-row">
+      <div class="book-spine" style="background:${e.cor}">${initials}</div>
+      <div class="book-info">
+        <div class="book-title">${e.titulo}</div>
+        <div class="book-author">${e.autor}</div>
+        <div class="book-meta">${tag}<span style="font-size:.74rem;color:var(--slate-light)">Retirada: ${fmt(e.retirada)}</span></div>
+      </div>
+      <div class="book-due">
+        <strong>${fmt(e.devolucao)}</strong>
+        <span style="font-size:.72rem;color:var(--slate-light)">Devolução</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterEmp(q) { empFiltered = emprestimos.filter(e => e.titulo.toLowerCase().includes(q.toLowerCase()) || e.autor.toLowerCase().includes(q.toLowerCase())); renderEmprestimos(empFiltered); }
+function filterEmpStatus(s) { empFiltered = s ? emprestimos.filter(e => e.status === s) : [...emprestimos]; renderEmprestimos(empFiltered); }
+
+// ═══════════════════════════ HISTÓRICO ══════════════════════
+function renderHistorico(list) {
+  const el = document.getElementById('historicoList');
+  el.innerHTML = list.map(h => {
+    const isLate = h.status === 'devolvido-atrasado';
+    const tag = isLate ? '<span class="tag tag-yellow">Devolvido com atraso</span>' : '<span class="tag tag-green">Devolvido</span>';
+    const initials = h.titulo.split(' ').slice(0,2).map(w=>w[0]).join('');
+    return `<div class="hist-row">
+      <div class="hist-timeline ${isLate ? 'late' : 'returned'}"></div>
+      <div class="book-spine" style="background:${h.cor};width:32px;height:44px;font-size:.55rem">${initials}</div>
+      <div class="book-info">
+        <div class="book-title">${h.titulo}</div>
+        <div class="book-author">${h.autor}</div>
+        <div class="book-meta" style="margin-top:5px">${tag}</div>
+      </div>
+      <div class="book-due">
+        <strong>${fmt(h.devolucao)}</strong>
+        <span style="font-size:.72rem;color:var(--slate-light)">Devolvido em</span>
+      </div>
+    </div>`;
+  }).join('') || '<div class="empty-state"><p>Nenhum registro encontrado.</p></div>';
+}
+
+function filterHist(q) { histFiltered = historico.filter(h => h.titulo.toLowerCase().includes(q.toLowerCase())); renderHistorico(histFiltered); }
+function filterHistAno(a) { histFiltered = a ? historico.filter(h => h.devolucao.startsWith(a)) : [...historico]; renderHistorico(histFiltered); }
+
+// ═══════════════════════════ CATÁLOGO ═══════════════════════
+function renderCatalog() {
+  const el = document.getElementById('catalogGrid');
+  if (!catFiltered.length) { el.innerHTML = '<div class="empty-state"><p>Nenhum livro encontrado.</p></div>'; return; }
+  el.innerHTML = catFiltered.map((b, i) => {
+    const disp = b.disponiveis > 0;
+    const tag = disp ? `<span class="tag tag-green">${b.disponiveis} disp.</span>` : '<span class="tag tag-red">Indisponível</span>';
+    const initials = b.titulo.split(' ').slice(0,2).map(w=>w[0]).join('');
+    return `<div class="cat-card" onclick="openDetalhe(${i})">
+      <div class="cat-cover" style="background:${b.cor}">${b.titulo.length > 28 ? b.titulo.slice(0,26)+'…' : b.titulo}</div>
+      <div class="cat-body">
+        <div class="cat-book-title">${b.titulo}</div>
+        <div class="cat-author">${b.autor}</div>
+        <div class="cat-footer">
+          ${tag}
+          <span class="tag tag-gray">${b.cat}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterCatalog(q) { catFiltered = catalogo.filter(b => b.titulo.toLowerCase().includes(q.toLowerCase()) || b.autor.toLowerCase().includes(q.toLowerCase())); renderCatalog(); }
+function filterCatalogCat(c) { catFiltered = c ? catalogo.filter(b => b.cat === c) : [...catalogo]; renderCatalog(); }
+function filterCatalogDisp(d) { catFiltered = d === 'disponivel' ? catalogo.filter(b => b.disponiveis > 0) : d === 'indisponivel' ? catalogo.filter(b => b.disponiveis === 0) : [...catalogo]; renderCatalog(); }
+
+function openDetalhe(i) {
+  const b = catFiltered[i];
+  document.getElementById('detalheTitle').textContent = b.titulo;
+  document.getElementById('detalheBody').innerHTML = `
+    <div style="display:flex;gap:16px;margin-bottom:18px">
+      <div style="width:60px;height:80px;border-radius:6px;background:${b.cor};display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Playfair Display',serif;font-size:.75rem;text-align:center;padding:6px;line-height:1.2;flex-shrink:0">${b.titulo.slice(0,20)}</div>
+      <div>
+        <div style="font-weight:600;color:var(--slate);margin-bottom:4px">${b.titulo}</div>
+        <div style="font-size:.82rem;color:var(--slate-light);margin-bottom:8px">${b.autor}</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span class="tag tag-gray">${b.cat}</span>
+          ${b.disponiveis > 0 ? `<span class="tag tag-green">${b.disponiveis} de ${b.total} disponíveis</span>` : '<span class="tag tag-red">Indisponível</span>'}
+        </div>
+      </div>
+    </div>
+    <div style="font-size:.8rem;color:var(--slate-light)">ISBN: <span style="color:var(--slate)">${b.isbn}</span></div>
+  `;
+  const btn = document.getElementById('detalheReservaBtn');
+  btn.disabled = b.disponiveis === 0;
+  btn.textContent = b.disponiveis > 0 ? 'Reservar este livro' : 'Indisponível';
+  btn.onclick = () => { closeModal('modal-livro-detalhe'); openModal('modal-reserva'); document.getElementById('reservaLivroSel').value = b.titulo; };
+  openModal('modal-livro-detalhe');
+}
+
+// ═══════════════════════════ AGENDAMENTOS ═══════════════════
+function buildTimeslots() {
+  const el = document.getElementById('timeslotGrid');
+  el.innerHTML = timeSlots.map(t => {
+    const taken = takenSlots.includes(t);
+    return `<div class="timeslot ${taken ? 'taken' : ''}" onclick="${taken ? '' : `selectSlot('${t}',this)`}">${t}</div>`;
+  }).join('');
+}
+function selectSlot(t, el) {
+  document.querySelectorAll('.timeslot').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedSlot = t;
+}
+function renderAgendamentos() {
+  const el = document.getElementById('agendamentosList');
+  el.innerHTML = agendamentos.map((a, i) => `
+    <div class="ag-item">
+      <div class="ag-icon ${a.tipo === 'estudo' ? 'study' : 'book'}">
+        ${a.tipo === 'estudo'
+          ? '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'
+          : '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>'
+        }
+      </div>
+      <div class="ag-info">
+        <div class="ag-title">${a.titulo}</div>
+        <div class="ag-sub">${a.hora}${a.obs ? ' · ' + a.obs : ''}</div>
+      </div>
+      <div class="ag-date">${fmt(a.data)}<button onclick="cancelarAg(${i})" style="display:block;margin-top:4px;font-size:.7rem;color:var(--crimson);background:none;border:none;cursor:pointer;font-family:'Sora',sans-serif">Cancelar</button></div>
+    </div>
+  `).join('') || '<div style="text-align:center;padding:24px;color:var(--slate-light);font-size:.875rem">Nenhum agendamento.</div>';
+}
+function salvarAgendamento() {
+  const tipo = document.getElementById('agTipo').value;
+  const data = document.getElementById('agData').value;
+  if (!data) { showToast('Selecione uma data.', 'error'); return; }
+  if (!selectedSlot) { showToast('Selecione um horário.', 'error'); return; }
+  const livro = document.getElementById('agLivro').value;
+  const obs = document.getElementById('agObs').value;
+  const titulo = tipo === 'estudo' ? 'Sala de Estudos' : 'Reserva: ' + livro.split(' — ')[0];
+  agendamentos.unshift({ tipo, titulo, data, hora: selectedSlot, obs });
+  renderAgendamentos();
+  document.getElementById('agData').value = '';
+  document.getElementById('agObs').value = '';
+  selectedSlot = '';
+  buildTimeslots();
+  showToast('Agendamento confirmado!', 'success');
+}
+function cancelarAg(i) { agendamentos.splice(i, 1); renderAgendamentos(); showToast('Agendamento cancelado.', ''); }
+
+// ═══════════════════════════ HOME PREVIEW ═══════════════════
+function renderHomePreview() {
+  // empréstimos preview
+  const empEl = document.getElementById('homeEmprestimosPreview');
+  empEl.innerHTML = emprestimos.slice(0,3).map(e => {
+    const tag = e.status === 'em-dia' ? '<span class="tag tag-green" style="font-size:.68rem">Em dia</span>' : '<span class="tag tag-red" style="font-size:.68rem">Atrasado</span>';
+    const initials = e.titulo.split(' ').slice(0,2).map(w=>w[0]).join('');
+    return `<div class="book-row">
+      <div class="book-spine" style="background:${e.cor};width:30px;height:40px;font-size:.52rem">${initials}</div>
+      <div class="book-info">
+        <div class="book-title" style="font-size:.82rem">${e.titulo}</div>
+        <div class="book-meta" style="margin-top:4px">${tag}</div>
+      </div>
+      <div class="book-due"><strong style="font-size:.78rem">${fmt(e.devolucao)}</strong></div>
+    </div>`;
+  }).join('');
+
+  // agendamentos preview
+  const agEl = document.getElementById('homeAgendamentosPreview');
+  agEl.innerHTML = agendamentos.slice(0,3).map(a => `
+    <div class="ag-item" style="padding:10px 12px">
+      <div class="ag-icon ${a.tipo === 'estudo' ? 'study' : 'book'}" style="width:30px;height:30px">
+        ${a.tipo === 'estudo'
+          ? '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'
+          : '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>'
+        }
+      </div>
+      <div class="ag-info">
+        <div class="ag-title" style="font-size:.82rem">${a.titulo}</div>
+        <div class="ag-sub">${a.hora}</div>
+      </div>
+      <div class="ag-date" style="font-size:.76rem">${fmt(a.data)}</div>
+    </div>
+  `).join('') || '<div style="text-align:center;padding:18px;color:var(--slate-light);font-size:.835rem">Nenhum agendamento.</div>';
+}
+
+// ═══════════════════════════ MODAL RESERVA SEARCH ═══════════
+function searchReserva(q) {
+  const el = document.getElementById('reservaResults');
+  if (!q) { el.innerHTML = ''; return; }
+  const results = catalogo.filter(b => b.titulo.toLowerCase().includes(q.toLowerCase()) && b.disponiveis > 0).slice(0, 4);
+  el.innerHTML = results.map(b => `
+    <div onclick="selectReserva('${b.titulo.replace(/'/g,"\\'")}');this.parentElement.querySelectorAll('div').forEach(d=>d.style.background='');this.style.background='var(--rose-pale)'"
+      style="padding:10px 14px;border:1.5px solid var(--rose-border);border-radius:9px;cursor:pointer;transition:background .15s;display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:.855rem;font-weight:600;color:var(--slate)">${b.titulo}</div>
+        <div style="font-size:.76rem;color:var(--slate-light)">${b.autor}</div>
+      </div>
+      <span class="tag tag-green">${b.disponiveis} disp.</span>
+    </div>
+  `).join('') || '<div style="font-size:.82rem;color:var(--slate-light);padding:8px 4px">Nenhum livro disponível encontrado.</div>';
+}
+function selectReserva(titulo) { document.getElementById('reservaLivroSel').value = titulo; }
+function confirmarReserva() {
+  const livro = document.getElementById('reservaLivroSel').value;
+  const data = document.getElementById('reservaData').value;
+  if (!livro) { showToast('Selecione um livro.', 'error'); return; }
+  if (!data) { showToast('Selecione uma data.', 'error'); return; }
+  closeModal('modal-reserva');
+  showToast(`Reserva de "${livro}" confirmada!`, 'success');
+  document.getElementById('reservaSearch').value = '';
+  document.getElementById('reservaLivroSel').value = '';
+  document.getElementById('reservaData').value = '';
+  document.getElementById('reservaResults').innerHTML = '';
+}
+
+// ═══════════════════════════ HELPERS ════════════════════════
+function fmt(d) { if (!d) return ''; const [y,m,day] = d.split('-'); return `${day}/${m}/${y}`; }
+
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); }));
+
+let tt;
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.className = 'toast ' + (type || '');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(tt);
+  tt = setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+// ═══════════════════════════ INIT ═══════════════════════════
+document.getElementById('agData').value = new Date(Date.now()+86400000).toISOString().split('T')[0];
+document.getElementById('reservaData').value = new Date(Date.now()+86400000).toISOString().split('T')[0];
+renderEmprestimos(empFiltered);
+renderHistorico(histFiltered);
+renderCatalog();
+renderAgendamentos();
+renderHomePreview();
+buildTimeslots();
+
+// toggle agendamento tipo
+document.getElementById('agTipo').addEventListener('change', function() {
+  document.getElementById('agLivroGroup').style.display = this.value === 'reserva' ? 'block' : 'none';
+});
+document.getElementById('agLivroGroup').style.display = 'none';
+</script>
+</body>
+</html>
