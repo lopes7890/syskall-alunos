@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fatec Conecta - Catálogo de Livros</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#304a57",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#93000b",
+                        "on-primary-fixed": "#410002",
+                        "primary-fixed": "#ffdad6",
+                        "primary": "#880009",
+                        "surface-variant": "#fadcd8",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#ffc0b9",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#f1d3d0",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#ffe2de",
+                        "on-secondary-fixed": "#011e2a",
+                        "surface-bright": "#fff8f7",
+                        "secondary": "#48626f",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#afcbda",
+                        "outline": "#906f6c",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#ffc0b9",
+                        "inverse-primary": "#ffb4ab",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#c8e4f4",
+                        "secondary-fixed": "#cbe7f6",
+                        "background": "#fff8f7",
+                        "primary-fixed-dim": "#ffb4ab",
+                        "tertiary-container": "#575858",
+                        "surface-tint": "#ba1a1b",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-container": "#ffe9e6",
+                        "primary-container": "#b11116",
+                        "surface": "#fff8f7",
+                        "on-background": "#271816",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#5b403d",
+                        "inverse-on-surface": "#ffedea",
+                        "outline-variant": "#e4beb9",
+                        "surface-container-low": "#fff0ee",
+                        "surface-container-highest": "#fadcd8",
+                        "on-tertiary-container": "#cecece",
+                        "tertiary": "#3f4141",
+                        "tertiary-fixed-dim": "#c6c6c6",
+                        "on-surface": "#271816",
+                        "inverse-surface": "#3e2c2a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "margin-desktop": "48px",
+                        "gutter": "24px",
+                        "container-max": "1440px",
+                        "sidebar-width": "280px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "title-md": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "caption": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "title-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .book-card:hover .book-overlay { opacity: 1; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d9d9d9; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 h-16 bg-primary flex items-center justify-between px-margin-desktop shadow-sm">
+<div class="flex items-center gap-8">
+<span class="font-display-lg text-display-lg font-bold text-on-primary">Fatec Conecta</span>
+<div class="relative flex items-center bg-on-primary/10 rounded-lg px-4 py-2 w-96 group focus-within:bg-on-primary/20 transition-all">
+<span class="material-symbols-outlined text-on-primary mr-2">search</span>
+<input class="bg-transparent border-none text-on-primary placeholder:text-on-primary/60 focus:ring-0 w-full font-label-md text-label-md" placeholder="Pesquisar no catálogo..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-primary flex items-center hover:bg-primary-container hover:text-on-primary-container p-2 rounded transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-primary flex items-center hover:bg-primary-container hover:text-on-primary-container p-2 rounded transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-on-primary/20">
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-primary font-bold">Arthur Silva</p>
+<p class="font-caption text-caption text-on-primary/70">RA: 123456789</p>
+</div>
+<img alt="User profile avatar" class="w-10 h-10 rounded-full border-2 border-on-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY6y373nOgFAU0wDuTcHNwpBL1ZXiIAuQ7eN3yxDVwjkt9vdEYsjXfcJNLFOBfwuECqNm-2qIG2_vgIF8ipjKWiU3kQnSEB-OMmrrkp1EdcNBAyLXAKv5I56nrP-OkxsE5Sra2NdO51OP3BugMhF8xOw8YnTG-RgN5GzrW3RXGV09up3Byk_yxb8wl1V2JcaC_ZfKvvrb0QYksnOPvFCTtCLQTDc1eYmduaU4OHQqo73RebF9fpsXzOk7QswjGqsmeIJgJOWmLTc0"/>
+</div>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-sidebar-width bg-secondary text-on-secondary flex flex-col py-8 shadow-none">
+<div class="px-6 mb-10">
+<h2 class="font-headline-lg text-headline-lg text-on-secondary">Biblioteca Fatec</h2>
+<p class="font-label-md text-label-md text-on-secondary/70">Portal do Aluno</p>
+</div>
+<nav class="flex-grow flex flex-col gap-1">
+<a class="flex items-center gap-4 px-6 py-4 text-on-secondary/70 hover:bg-on-secondary/5 hover:text-on-secondary transition-all font-label-md text-label-md" href="painel_do_aluno.html">
+<span class="material-symbols-outlined">home</span> Home
+            </a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-secondary/70 hover:bg-on-secondary/5 hover:text-on-secondary transition-all font-label-md text-label-md" href="emprestimos.html">
+<span class="material-symbols-outlined">library_books</span> Meus Empréstimos
+            </a>
+<a class="flex items-center gap-4 px-6 py-4 bg-on-secondary/10 border-l-4 border-primary-fixed text-on-secondary font-bold transition-all font-label-md text-label-md" href="catalogo.html">
+<span class="material-symbols-outlined">menu_book</span> Catálogo
+            </a>
+<!-- <a class="flex items-center gap-4 px-6 py-4 text-on-secondary/70 hover:bg-on-secondary/5 hover:text-on-secondary transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">qr_code_scanner</span> Escanear Livro
+            </a>  -->
+</nav>
+<div class="mt-auto flex flex-col gap-1 border-t border-on-secondary/10 pt-4">
+<a class="flex items-center gap-4 px-6 py-4 text-on-secondary/70 hover:bg-on-secondary/5 hover:text-on-secondary transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">settings</span> Configurações
+            </a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-secondary/70 hover:bg-on-secondary/5 hover:text-on-secondary transition-all font-label-md text-label-md text-error-container" href="#">
+<span class="material-symbols-outlined">logout</span> Sair
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-sidebar-width mt-16 p-margin-desktop max-w-container-max mx-auto w-full">
+<header class="mb-8">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Catálogo de Livros</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Explore o acervo completo da biblioteca da Fatec e gerencie suas leituras.</p>
+</header>
+<!-- Filters Section -->
+<section class="bg-surface-container-lowest border border-outline/20 rounded-xl p-6 mb-10 flex flex-wrap gap-6 items-end">
+<div class="flex-grow min-w-[280px]">
+<label class="block font-label-md text-label-md mb-2 text-secondary">Categoria</label>
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 rounded-full bg-primary-container text-white font-label-md text-label-md shadow-sm">Todos</button>
+<button class="px-4 py-2 rounded-full bg-tertiary-fixed text-tertiary font-label-md text-label-md hover:bg-tertiary/10 transition-colors">Tecnologia</button>
+<button class="px-4 py-2 rounded-full bg-tertiary-fixed text-tertiary font-label-md text-label-md hover:bg-tertiary/10 transition-colors">Literatura</button>
+<button class="px-4 py-2 rounded-full bg-tertiary-fixed text-tertiary font-label-md text-label-md hover:bg-tertiary/10 transition-colors">Gestão</button>
+<button class="px-4 py-2 rounded-full bg-tertiary-fixed text-tertiary font-label-md text-label-md hover:bg-tertiary/10 transition-colors">Engenharia</button>
+</div>
+</div>
+<div class="w-64">
+<label class="block font-label-md text-label-md mb-2 text-secondary">Disponibilidade</label>
+<select class="w-full bg-white border border-outline rounded-lg px-4 py-2.5 font-label-md text-label-md focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all">
+<option>Qualquer status</option>
+<option>Disponível</option>
+<option>Emprestado</option>
+<option>Reservado</option>
+</select>
+</div>
+<button class="bg-secondary text-on-secondary px-6 py-2.5 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">tune</span> Aplicar Filtros
+            </button>
+</section>
+<!-- Book Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-gutter">
+<!-- Book Card 1 -->
+<div class="bg-white border border-outline/20 rounded-xl overflow-hidden hover:shadow-lg transition-all group flex flex-col h-full">
+<div class="relative h-64 bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A professional close-up of a modern software engineering book cover resting on a clean white desk in a high-key illuminated library. The lighting is soft and academic, highlighting the rich textures of the paper. The scene uses a professional palette of deep reds and slate blues, reflecting a corporate educational aesthetic. The atmosphere is quiet, focused, and intellectually stimulating." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV5Wbcm8JvJv614uoyG8wT6Qcu4Vb_7tZWSO653PbKjgCSX_AZLWbGpCIk9ndeRmigvTPlhfD5pcTJPsj6EvA1Y_JcGtHkOMDvnM_EMLxf0zLfDYeI8mfNv1uZ6GCw87sX1pp6RG4fyqPHyxzLNUbmftUu-PUt28V2gB1zqwxHxgGApIbFVa_TE4FYbwaaczJK2fO9mpW2dS4_DDo9w8ZKTELgkkxbbFUZOGV7jpC90Bsj03y96krwUPtOQKLyXlqnl1GpCOhcHFc"/>
+<div class="absolute top-3 right-3">
+<span class="bg-green-100 text-green-800 text-[10px] uppercase font-bold px-2 py-1 rounded-full shadow-sm">Disponível</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<span class="text-[10px] text-secondary font-bold uppercase tracking-wider mb-1">Tecnologia</span>
+<h3 class="font-title-md text-title-md text-on-surface line-clamp-2 mb-1">Código Limpo</h3>
+<p class="font-caption text-caption text-on-surface-variant mb-4">Robert C. Martin</p>
+<div class="mt-auto pt-4 flex gap-2">
+<button class="flex-grow bg-primary text-white py-2 rounded font-label-md text-label-md hover:bg-primary/90 transition-colors">Reservar</button>
+<button class="p-2 border border-outline/30 rounded text-secondary hover:bg-secondary/5 transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Book Card 2 -->
+<div class="bg-white border border-outline/20 rounded-xl overflow-hidden hover:shadow-lg transition-all group flex flex-col h-full">
+<div class="relative h-64 bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A high-quality studio photograph of a classic literature book cover featuring elegant typography. The setting is a minimalist academic environment with cool, soft daylight filtering through a large window. The color scheme is dominated by neutral greys and whites with a striking primary red accent on the book spine. The mood is sophisticated and timeless, evoking a sense of deep learning." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0ooIvBnWg_rez736fp36WWhQcLI5Ck6PXPfZZzgPi5YaUXlSRGGWprTacn-n3rgBTz6YeIQZ3zDuIHEd4tFVjAqQWxKT8m_9sxkTrx44zWXGdSl3c-yfEKvxPdD3nEp05oNwl9o46kaM7j427a6sXGfG_rXS1MxQ6oI3lKdj1hlNhBGWzo0dgvJe1KxztS1yePRpQ5V9tyo_dxAqvEeZ7eyQ12E9ilrkbOKewG5GR8hFXw_Xe5oa113d5ri8-1p76TRLjkPBUjnc"/>
+<div class="absolute top-3 right-3">
+<span class="bg-secondary-container text-on-secondary-container text-[10px] uppercase font-bold px-2 py-1 rounded-full shadow-sm">Emprestado</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<span class="text-[10px] text-secondary font-bold uppercase tracking-wider mb-1">Literatura</span>
+<h3 class="font-title-md text-title-md text-on-surface line-clamp-2 mb-1">Dom Casmurro</h3>
+<p class="font-caption text-caption text-on-surface-variant mb-4">Machado de Assis</p>
+<div class="mt-auto pt-4 flex gap-2">
+<button class="flex-grow bg-outline text-white py-2 rounded font-label-md text-label-md cursor-not-allowed opacity-60">Indisponível</button>
+<button class="p-2 border border-outline/30 rounded text-secondary hover:bg-secondary/5 transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Book Card 3 -->
+<div class="bg-white border border-outline/20 rounded-xl overflow-hidden hover:shadow-lg transition-all group flex flex-col h-full">
+<div class="relative h-64 bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A clean, minimalist composition showing a management textbook on a light grey concrete surface. The scene is lit by sharp, direct office lighting creating subtle shadows that define the book's geometric form. The palette is professional, utilizing various shades of blue and stark white, with a bold red logo in the background. The aesthetic is ultra-modern and organized." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxYwyNhI33B9XfS1L5J1wKtjqplxXqSaf7bx0sOhAu-2GlvEbtMqyrMKUDZ9lssiV15N5UEKReN4ju8DrOhltsayr4kORUrk2POkniOey4fnMBUXnBIoKIN3ASgGUNj9ziwzlbgp9chAK9ckQMOsRmrK33G1qYwer2-a3pYUC8nrPVp5vmfE_Y3rN347KoDDYbTPQ0g4aPvhjZN9DlTSYpLSXFvCyo5plRetvZQUTUe6yRd5eY8tYhybZsBM62wsrxv_FKbESnMhk"/>
+<div class="absolute top-3 right-3">
+<span class="bg-green-100 text-green-800 text-[10px] uppercase font-bold px-2 py-1 rounded-full shadow-sm">Disponível</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<span class="text-[10px] text-secondary font-bold uppercase tracking-wider mb-1">Gestão</span>
+<h3 class="font-title-md text-title-md text-on-surface line-clamp-2 mb-1">Gestão Ágil</h3>
+<p class="font-caption text-caption text-on-surface-variant mb-4">Erich Gamma</p>
+<div class="mt-auto pt-4 flex gap-2">
+<button class="flex-grow bg-primary text-white py-2 rounded font-label-md text-label-md hover:bg-primary/90 transition-colors">Reservar</button>
+<button class="p-2 border border-outline/30 rounded text-secondary hover:bg-secondary/5 transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Book Card 4 -->
+<div class="bg-white border border-outline/20 rounded-xl overflow-hidden hover:shadow-lg transition-all group flex flex-col h-full">
+<div class="relative h-64 bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A high-end book layout for an engineering manual, presented in a bright, modern studio setting. The lighting is diffused and professional, casting soft shadows on a white marble tabletop. The visual style follows the corporate academic design tokens, with crisp navy blue and deep red accents. The atmosphere is one of precision, expertise, and institutional reliability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCX_KFE4dvD12YcfmNEY7j6-r_21y-UZ8UhbPIpynj9GSl5IXwhmKEYMaIGB9G3PrhEQUinHoUqXhdyDutI7TMy-MdCsbo0anuZZ8Ih9OOxEzcJq0wLa8SqJ2bjWdn-R_kuICBBCojKwNdDZ9VLzZ_6A-xUG5XV6ahbs6ekAy0aYjGJhLh1IxVcj9d-kiiohBMo5VBDLkFzPQVSc78KxeUmHq2BTNsQ4rjHdAP12vY4XMvur0ene701kfXKrXaxJBvh2DLp5_hJsCQ"/>
+<div class="absolute top-3 right-3">
+<span class="bg-green-100 text-green-800 text-[10px] uppercase font-bold px-2 py-1 rounded-full shadow-sm">Disponível</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<span class="text-[10px] text-secondary font-bold uppercase tracking-wider mb-1">Engenharia</span>
+<h3 class="font-title-md text-title-md text-on-surface line-clamp-2 mb-1">Cálculo Diferencial I</h3>
+<p class="font-caption text-caption text-on-surface-variant mb-4">James Stewart</p>
+<div class="mt-auto pt-4 flex gap-2">
+<button class="flex-grow bg-primary text-white py-2 rounded font-label-md text-label-md hover:bg-primary/90 transition-colors">Reservar</button>
+<button class="p-2 border border-outline/30 rounded text-secondary hover:bg-secondary/5 transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Book Card 5 -->
+<div class="bg-white border border-outline/20 rounded-xl overflow-hidden hover:shadow-lg transition-all group flex flex-col h-full">
+<div class="relative h-64 bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A high-resolution image of an old library book with golden lettering on its spine, placed in a modern digital library interface. The setting is clean and high-contrast, lit with cool laboratory-style lighting that emphasizes clarity. The color palette incorporates professional blues and whites with vibrant red highlights to signify academic connectivity. The mood is scholarly yet contemporary." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAN0JH6sLCvQzU26OK5KzjnfxT9PxWhSLEQS78tPhTvPFAW_i63-5rjJsbj6mTBpRfh0CYBXWaa1ggif8XyokmgqntGUDiGv77AQBROOM_KO0j31g85HdoGSkzY_TcGkkJC9FDrSygSk3gJ7UamGox4t0fygv2FRXqIyrrySECFVC5dSVnR_hjznFnPuFqDjEn-UK9je5ZfYSQkW1SInoQ8Nr4jkJb1lbrpJ0D0-tJ4tgH_9bAdNWWnJXRXutQfCK838b-XiHNiR_g"/>
+<div class="absolute top-3 right-3">
+<span class="bg-green-100 text-green-800 text-[10px] uppercase font-bold px-2 py-1 rounded-full shadow-sm">Disponível</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<span class="text-[10px] text-secondary font-bold uppercase tracking-wider mb-1">Literatura</span>
+<h3 class="font-title-md text-title-md text-on-surface line-clamp-2 mb-1">A Metamorfose</h3>
+<p class="font-caption text-caption text-on-surface-variant mb-4">Franz Kafka</p>
+<div class="mt-auto pt-4 flex gap-2">
+<button class="flex-grow bg-primary text-white py-2 rounded font-label-md text-label-md hover:bg-primary/90 transition-colors">Reservar</button>
+<button class="p-2 border border-outline/30 rounded text-secondary hover:bg-secondary/5 transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Repeat cards as necessary for grid layout... -->
+<div class="bg-white border border-outline/20 rounded-xl overflow-hidden hover:shadow-lg transition-all group flex flex-col h-full">
+<div class="relative h-64 bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A bright and airy shot of a technology book on a white minimalist shelf, illuminated by natural morning light. The composition is structured and clean, following an 8px grid system. The colors are crisp white, corporate navy, and a punch of primary red from the university branding. The mood is optimistic and professional, ideal for a modern academic portal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-eySM_HcZ7hoV7Ily6rFPszxijKdQgYH44D50fwlZc2J7QZKb8euo6LXKXnWa5qtLTLTj2b0Mk0n3_sSEUDUn0xYFtwjF85M1cjwZ41HVdLmYsQee_8ATwNdLsFPgn8syOdLQ-KUntr2eVhOW6cEcU8hnSm76kyhsYBzVMup__vbb8WKHGK8ixR97tbt5b9PzJ-TJfPlzdGItmlYCh9iKoanACh0r2nQduGj0npFe5o5A_xJCYhT3eTHKrqqhFWcskZl3bz2FWF4"/>
+<div class="absolute top-3 right-3">
+<span class="bg-green-100 text-green-800 text-[10px] uppercase font-bold px-2 py-1 rounded-full shadow-sm">Disponível</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<span class="text-[10px] text-secondary font-bold uppercase tracking-wider mb-1">Tecnologia</span>
+<h3 class="font-title-md text-title-md text-on-surface line-clamp-2 mb-1">Inteligência Artificial</h3>
+<p class="font-caption text-caption text-on-surface-variant mb-4">Stuart Russell</p>
+<div class="mt-auto pt-4 flex gap-2">
+<button class="flex-grow bg-primary text-white py-2 rounded font-label-md text-label-md hover:bg-primary/90 transition-colors">Reservar</button>
+<button class="p-2 border border-outline/30 rounded text-secondary hover:bg-secondary/5 transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Empty card style for "loading more" visual consistency -->
+<div class="border-2 border-dashed border-outline/20 rounded-xl flex flex-col items-center justify-center h-full p-8 bg-surface-container-low/30 min-h-[400px]">
+<span class="material-symbols-outlined text-outline/40 text-[48px] mb-4">more_horiz</span>
+<p class="font-label-md text-label-md text-outline/60 text-center">Mais títulos em breve...</p>
+</div>
+</div>
+<!-- Pagination Section -->
+<footer class="mt-16 flex flex-col items-center gap-6">
+<button class="bg-white border-2 border-secondary text-secondary px-8 py-3 rounded-lg font-label-md text-label-md hover:bg-secondary hover:text-white transition-all flex items-center gap-3">
+                Carregar mais livros
+                <span class="material-symbols-outlined">expand_more</span>
+</button>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded border border-outline/20 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded bg-secondary text-white font-bold">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded border border-outline/20 hover:bg-surface-container transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded border border-outline/20 hover:bg-surface-container transition-colors">3</button>
+<span class="px-2">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded border border-outline/20 hover:bg-surface-container transition-colors">12</button>
+<button class="w-10 h-10 flex items-center justify-center rounded border border-outline/20 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">Mostrando 40 de 482 títulos disponíveis</p>
+</footer>
+</main>
+<!-- Micro-interaction effects -->
+<script>
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                let x = e.clientX - e.target.offsetLeft;
+                let y = e.clientY - e.target.offsetTop;
+                let ripples = document.createElement('span');
+                ripples.style.left = x + 'px';
+                ripples.style.top = y + 'px';
+                this.appendChild(ripples);
+                setTimeout(() => { ripples.remove() }, 1000);
+            });
+        });
+    </script>
+</body></html>

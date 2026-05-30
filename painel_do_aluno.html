@@ -1,0 +1,246 @@
+<!DOCTYPE html><html lang="pt-br"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Conecta | Portal do Aluno</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="styles/styles-painel.css" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#880009",
+                    "secondary": "#48626f",
+                    "outline-variant": "#e4beb9",
+                    "surface-container-low": "#fff0ee",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#271816",
+                    "outline": "#906f6c",
+                    "on-surface": "#271816",
+                    "tertiary": "#3f4141",
+                    "inverse-primary": "#ffb4ab",
+                    "on-secondary-fixed": "#011e2a",
+                    "inverse-on-surface": "#ffedea",
+                    "secondary-fixed": "#cbe7f6",
+                    "on-tertiary-fixed-variant": "#454747",
+                    "surface-bright": "#fff8f7",
+                    "on-primary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#ffc0b9",
+                    "on-tertiary-container": "#cecece",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed-variant": "#304a57",
+                    "surface-tint": "#ba1a1b",
+                    "surface-container": "#ffe9e6",
+                    "surface": "#fff8f7",
+                    "tertiary-container": "#575858",
+                    "on-secondary-container": "#4c6674",
+                    "surface-dim": "#f1d3d0",
+                    "tertiary-fixed-dim": "#c6c6c6",
+                    "on-error-container": "#93000a",
+                    "primary-fixed": "#ffdad6",
+                    "primary-fixed-dim": "#ffb4ab",
+                    "on-primary-fixed-variant": "#93000b",
+                    "surface-variant": "#fadcd8",
+                    "inverse-surface": "#3e2c2a",
+                    "on-secondary": "#ffffff",
+                    "primary-container": "#b11116",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#afcbda",
+                    "tertiary-fixed": "#e2e2e2",
+                    "background": "#fff8f7",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "surface-container-high": "#ffe2de",
+                    "on-primary-fixed": "#410002",
+                    "error": "#ba1a1a",
+                    "secondary-container": "#c8e4f4",
+                    "on-surface-variant": "#5b403d",
+                    "surface-container-highest": "#fadcd8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "container-max": "1440px",
+                    "base": "8px",
+                    "margin-desktop": "48px",
+                    "sidebar-width": "280px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "title-md": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "label-md": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "caption": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-8 h-16 fixed top-0 z-50 bg-primary dark:bg-primary shadow-md">
+<div class="flex items-center gap-4">
+<span class="text-title-md font-title-md font-bold text-on-primary">Conecta</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-on-primary/80 font-label-md text-label-md">
+<span class="">Olá, Visitante!</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-primary cursor-pointer hover:bg-primary-container/20 transition-colors p-2 rounded-full">notifications</span>
+<span class="material-symbols-outlined text-on-primary cursor-pointer hover:bg-primary-container/20 transition-colors p-2 rounded-full">help</span>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="flex flex-col h-[calc(100vh-64px)] w-[280px] fixed left-0 top-16 py-6 bg-secondary dark:bg-secondary border-r border-outline-variant/20 z-40">
+<div class="px-6 mb-8 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary">
+<img alt="User profile avatar" class="w-10 h-10 rounded-full border-2 border-on-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY6y373nOgFAU0wDuTcHNwpBL1ZXiIAuQ7eN3yxDVwjkt9vdEYsjXfcJNLFOBfwuECqNm-2qIG2_vgIF8ipjKWiU3kQnSEB-OMmrrkp1EdcNBAyLXAKv5I56nrP-OkxsE5Sra2NdO51OP3BugMhF8xOw8YnTG-RgN5GzrW3RXGV09up3Byk_yxb8wl1V2JcaC_ZfKvvrb0QYksnOPvFCTtCLQTDc1eYmduaU4OHQqo73RebF9fpsXzOk7QswjGqsmeIJgJOWmLTc0"/>
+</div>
+<div class="flex flex-col">
+<span class="text-on-secondary font-bold font-body-md text-body-md">Portal do Aluno</span>
+<span class="text-on-secondary/70 font-label-md text-label-md">RA: 123456789</span>
+</div>
+</div>
+<nav class="flex-grow space-y-2 px-3">
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container border-l-4 border-primary rounded-r-full scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Início</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-secondary/80 hover:text-on-secondary hover:bg-on-secondary/10 transition-all" href="emprestimos.html">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-md text-label-md">Meus Empréstimos</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-secondary/80 hover:text-on-secondary hover:bg-on-secondary/10 transition-all" href="catalogo.html">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-md text-label-md">Catálogo</span>
+</a>
+<!-- <a class="flex items-center gap-3 px-4 py-3 text-on-secondary/80 hover:text-on-secondary hover:bg-on-secondary/10 transition-all" href="">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+<span class="font-label-md text-label-md">Escanear Livro</span>
+</a> -->
+</nav>
+<div class="px-6 mt-4">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all">
+<span class="material-symbols-outlined">add</span>
+                Novo Empréstimo
+            </button>
+</div>
+<div class="mt-auto border-t border-white/10 pt-4 px-3 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-secondary/80 hover:text-on-secondary hover:bg-on-secondary/10 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Configurações</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-secondary/80 hover:text-on-secondary hover:bg-on-secondary/10 transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Sair</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-[280px] mt-16 p-12 min-h-screen">
+<div class="max-w-[1440px] mx-auto">
+<!-- Hero Welcome -->
+<header class="mb-12">
+<h1 class="font-headline-lg text-headline-lg text-primary mb-2">Bem-vindo ao Conecta, Guilherme!</h1>
+<p class="font-body-lg text-body-lg text-secondary">Comunidade e universidade conectados. Gerencie seus empréstimos e explore o acervo.</p>
+</header>
+<!-- Bento Dashboard Grid -->
+<div class="bento-grid">
+<!-- Main Action Card -->
+<div class="col-span-8 glass-card rounded-xl p-8 flex items-center gap-8 relative overflow-hidden group border-primary/20" style="transform: translateY(0px);">
+<div class="relative z-10 flex flex-col gap-4">
+<h2 class="font-headline-lg text-headline-lg text-on-background">Pronto para uma nova leitura?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">Use nossa ferramenta de escaneamento rápido para registrar novos livros em segundos usando apenas a câmera do seu celular.</p>
+<button class="w-fit mt-4 bg-primary text-white font-bold py-4 px-8 rounded-lg flex items-center gap-3 shadow-lg hover:scale-105 transition-transform active:scale-95">
+
+                            Reservar livro
+                        </button>
+</div>
+<div class="absolute right-[-40px] top-[-20px] opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[240px] text-primary">menu_book</span>
+</div>
+</div>
+<!-- Profile Statistics -->
+<div class="col-span-4 glass-card rounded-xl p-6 flex flex-col gap-6" style="transform: translateY(0px);">
+<h3 class="font-title-md text-title-md text-secondary border-b border-outline/20 pb-4">Visão Geral</h3>
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">library_books</span>
+<span class="font-label-md text-label-md">Livros Registrados</span>
+</div>
+<span class="font-headline-lg text-headline-lg text-primary">12</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-error-container/30 rounded-lg">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error">warning</span>
+<span class="font-label-md text-label-md">Livros Vencidos</span>
+</div>
+<span class="font-headline-lg text-headline-lg text-error">02</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-secondary-container/30 rounded-lg">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-secondary-container">event_note</span>
+<span class="font-label-md text-label-md">Próximas Entregas</span>
+</div>
+<span class="font-headline-lg text-headline-lg text-on-secondary-container">03</span>
+</div>
+</div>
+</div>
+<!-- Recent Activity / Recommendations -->
+
+</div>
+<!-- Dashboard Footer Info -->
+<footer class="mt-16 border-t border-outline/10 pt-8 flex justify-between items-center text-caption font-caption text-secondary/60">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">terminal</span>
+<span class="">Versão: 1.5.2-rc2</span>
+</div>
+<div class="">Desenvolvido por FATEC Registro</div>
+</footer>
+</div>
+</main>
+<!-- Floating Action Button for Scanner (Contextual Support) -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-90 transition-all z-50 md:hidden">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">qr_code_scanner</span>
+</button>
+<script>
+        // Micro-interactions for glass cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0px)';
+            });
+        });
+    </script>
+
+
+</body></html>
